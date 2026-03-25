@@ -14,7 +14,233 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      achievements: {
+        Row: {
+          category: string
+          description: string | null
+          icon: string | null
+          id: string
+          name: string
+          required_count: number | null
+          reward_type: string | null
+          reward_value: string | null
+          xp_reward: number | null
+        }
+        Insert: {
+          category: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name: string
+          required_count?: number | null
+          reward_type?: string | null
+          reward_value?: string | null
+          xp_reward?: number | null
+        }
+        Update: {
+          category?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name?: string
+          required_count?: number | null
+          reward_type?: string | null
+          reward_value?: string | null
+          xp_reward?: number | null
+        }
+        Relationships: []
+      }
+      health_metrics: {
+        Row: {
+          id: string
+          logged_at: string
+          metric_type: string
+          notes: string | null
+          unit: string
+          user_id: string
+          value: number
+        }
+        Insert: {
+          id?: string
+          logged_at?: string
+          metric_type: string
+          notes?: string | null
+          unit: string
+          user_id: string
+          value: number
+        }
+        Update: {
+          id?: string
+          logged_at?: string
+          metric_type?: string
+          notes?: string | null
+          unit?: string
+          user_id?: string
+          value?: number
+        }
+        Relationships: []
+      }
+      meal_logs: {
+        Row: {
+          calories: number | null
+          carbs: number | null
+          fat: number | null
+          food_name: string
+          id: string
+          logged_at: string
+          meal_type: string
+          protein: number | null
+          user_id: string
+        }
+        Insert: {
+          calories?: number | null
+          carbs?: number | null
+          fat?: number | null
+          food_name: string
+          id?: string
+          logged_at?: string
+          meal_type: string
+          protein?: number | null
+          user_id: string
+        }
+        Update: {
+          calories?: number | null
+          carbs?: number | null
+          fat?: number | null
+          food_name?: string
+          id?: string
+          logged_at?: string
+          meal_type?: string
+          protein?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          created_at: string
+          display_name: string | null
+          goal: string | null
+          height: number | null
+          id: string
+          level: number | null
+          streak_days: number | null
+          updated_at: string
+          user_id: string
+          weight: number | null
+          xp: number | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          display_name?: string | null
+          goal?: string | null
+          height?: number | null
+          id?: string
+          level?: number | null
+          streak_days?: number | null
+          updated_at?: string
+          user_id: string
+          weight?: number | null
+          xp?: number | null
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          display_name?: string | null
+          goal?: string | null
+          height?: number | null
+          id?: string
+          level?: number | null
+          streak_days?: number | null
+          updated_at?: string
+          user_id?: string
+          weight?: number | null
+          xp?: number | null
+        }
+        Relationships: []
+      }
+      user_achievements: {
+        Row: {
+          achievement_id: string
+          claimed: boolean | null
+          id: string
+          unlocked_at: string
+          user_id: string
+        }
+        Insert: {
+          achievement_id: string
+          claimed?: boolean | null
+          id?: string
+          unlocked_at?: string
+          user_id: string
+        }
+        Update: {
+          achievement_id?: string
+          claimed?: boolean | null
+          id?: string
+          unlocked_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_achievements_achievement_id_fkey"
+            columns: ["achievement_id"]
+            isOneToOne: false
+            referencedRelation: "achievements"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      workout_logs: {
+        Row: {
+          category: string
+          duration_min: number | null
+          exercise_name: string
+          id: string
+          logged_at: string
+          modality: string
+          notes: string | null
+          reps: number | null
+          sets: number | null
+          user_id: string
+          weight_kg: number | null
+          xp_earned: number | null
+        }
+        Insert: {
+          category: string
+          duration_min?: number | null
+          exercise_name: string
+          id?: string
+          logged_at?: string
+          modality: string
+          notes?: string | null
+          reps?: number | null
+          sets?: number | null
+          user_id: string
+          weight_kg?: number | null
+          xp_earned?: number | null
+        }
+        Update: {
+          category?: string
+          duration_min?: number | null
+          exercise_name?: string
+          id?: string
+          logged_at?: string
+          modality?: string
+          notes?: string | null
+          reps?: number | null
+          sets?: number | null
+          user_id?: string
+          weight_kg?: number | null
+          xp_earned?: number | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
