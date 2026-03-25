@@ -8,11 +8,13 @@ import Signup from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/Dashboard";
+import Saude from "./pages/Saude";
 import Treinos from "./pages/Treinos";
 import Nutricao from "./pages/Nutricao";
 import Assistente from "./pages/Assistente";
 import Recompensas from "./pages/Recompensas";
 import Perfil from "./pages/Perfil";
+import Planos from "./pages/Planos";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,11 +31,13 @@ const App = () => (
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/saude" element={<Saude />} />
           <Route path="/treinos" element={<Treinos />} />
           <Route path="/nutricao" element={<Nutricao />} />
           <Route path="/assistente" element={<Assistente />} />
           <Route path="/recompensas" element={<Recompensas />} />
           <Route path="/perfil" element={<Perfil />} />
+          <Route path="/planos" element={<Planos />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

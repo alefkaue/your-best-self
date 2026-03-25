@@ -1,4 +1,4 @@
-import { ArrowLeft, LogOut, Pencil, Save, Camera, Loader2 } from "lucide-react";
+import { ArrowLeft, LogOut, Pencil, Save, Crown, Watch, Smartphone } from "lucide-react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { BottomNav } from "@/components/BottomNav";
 import { ExpandableSection } from "@/components/ExpandableSection";
@@ -9,7 +9,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { toast } from "sonner";
-import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
 
 export default function Perfil() {
   const { user, isReady, signOut } = useAuth();
@@ -40,15 +39,6 @@ export default function Perfil() {
     queryKey: ["workout-count", user?.id],
     queryFn: async () => {
       const { count } = await supabase.from("workout_logs").select("*", { count: "exact", head: true }).eq("user_id", user!.id);
-      return count || 0;
-    },
-    enabled: isReady && !!user,
-  });
-
-  const { data: mealCount } = useQuery({
-    queryKey: ["meal-count", user?.id],
-    queryFn: async () => {
-      const { count } = await supabase.from("meal_logs").select("*", { count: "exact", head: true }).eq("user_id", user!.id);
       return count || 0;
     },
     enabled: isReady && !!user,
@@ -97,66 +87,81 @@ export default function Perfil() {
             <LogOut className="h-5 w-5" />
           </button>
         </div>
-
         <div className="flex flex-col items-center">
           <div className="w-20 h-20 rounded-full bg-primary-foreground/20 flex items-center justify-center text-primary-foreground text-2xl font-bold font-display mb-2">
             {profile?.display_name?.charAt(0)?.toUpperCase() || "?"}
           </div>
           <h2 className="text-lg font-bold text-primary-foreground">{profile?.display_name}</h2>
-          <p className="text-xs text-primary-foreground/70">{user.email}</p>
+          <p className="text-xs text-primary-foreground/70">Nível {profile?.level || 1} • {profile?.xp || 0} XP</p>
         </div>
       </div>
 
       <div className="px-4 -mt-6 space-y-4">
-        {/* Stats */}
-        <div className="bg-card rounded-lg shadow-card p-4 grid grid-cols-3 gap-4 text-center">
+        <div className="bg-card rounded-xl shadow-card p-4 grid grid-cols-3 gap-4 text-center">
           <div>
             <p className="text-xl font-bold font-display text-foreground">{workoutCount}</p>
             <p className="text-xs text-muted-foreground">Treinos</p>
           </div>
           <div>
-            <p className="text-xl font-bold font-display text-foreground">{mealCount}</p>
-            <p className="text-xs text-muted-foreground">Refeições</p>
-          </div>
-          <div>
             <p className="text-xl font-bold font-display text-foreground">{profile?.streak_days || 0}</p>
             <p className="text-xs text-muted-foreground">Streak</p>
           </div>
+          <div>
+            <p className="text-xl font-bold font-display text-foreground">{profile?.level || 1}</p>
+            <p className="text-xs text-muted-foreground">Nível</p>
+          </div>
         </div>
 
-        {/* Editable profile */}
+        {/* Quick Links */}
+        <div className="grid grid-cols-2 gap-3">
+          <Link to="/planos" className="bg-card rounded-xl p-4 flex items-center gap-3 hover:ring-1 hover:ring-primary/30 transition-all">
+            <Crown className="h-5 w-5 text-accent" />
+            <div>
+              <p className="text-sm font-bold text-foreground">Planos</p>
+              <p className="text-[10px] text-muted-foreground">Upgrade para Pro</p>
+            </div>
+          </Link>
+          <div className="bg-card rounded-xl p-4 flex items-center gap-3 opacity-60">
+            <Watch className="h-5 w-5 text-info" />
+            <div>
+              <p className="text-sm font-bold text-foreground">Dispositivos</p>
+              <p className="text-[10px] text-muted-foreground">Em breve</p>
+            </div>
+          </div>
+        </div>
+
         <ExpandableSection icon={<Pencil className="h-5 w-5" />} title="Informações Pessoais" subtitle={editing ? "Editando..." : "Toque para editar"}>
           <div className="space-y-3">
             <div>
               <label className="text-xs text-muted-foreground">Nome</label>
-              <Input disabled={!editing} value={form.display_name} onChange={(e) => setForm({ ...form, display_name: e.target.value })} />
+              <Input disabled={!editing} value={form.display_name} onChange={(e) => setForm({ ...form, display_name: e.target.value })} className="bg-secondary border-border" />
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <label className="text-xs text-muted-foreground">Peso (kg)</label>
-                <Input type="number" disabled={!editing} value={form.weight} onChange={(e) => setForm({ ...form, weight: e.target.value })} />
+                <Input type="number" disabled={!editing} value={form.weight} onChange={(e) => setForm({ ...form, weight: e.target.value })} className="bg-secondary border-border" />
               </div>
               <div>
                 <label className="text-xs text-muted-foreground">Altura (cm)</label>
-                <Input type="number" disabled={!editing} value={form.height} onChange={(e) => setForm({ ...form, height: e.target.value })} />
+                <Input type="number" disabled={!editing} value={form.height} onChange={(e) => setForm({ ...form, height: e.target.value })} className="bg-secondary border-border" />
               </div>
             </div>
             <div>
               <label className="text-xs text-muted-foreground">Objetivo</label>
-              <select disabled={!editing} value={form.goal} onChange={(e) => setForm({ ...form, goal: e.target.value })} className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm">
+              <select disabled={!editing} value={form.goal} onChange={(e) => setForm({ ...form, goal: e.target.value })} className="w-full rounded-md border border-border bg-secondary px-3 py-2 text-sm text-foreground">
                 {Object.entries(goalLabels).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
               </select>
             </div>
             <div>
               <label className="text-xs text-muted-foreground">Bio</label>
-              <Input disabled={!editing} value={form.bio} onChange={(e) => setForm({ ...form, bio: e.target.value })} placeholder="Conte sobre você..." />
+              <Input disabled={!editing} value={form.bio} onChange={(e) => setForm({ ...form, bio: e.target.value })} placeholder="Conte sobre você..." className="bg-secondary border-border" />
             </div>
             {editing ? (
               <Button onClick={() => updateProfile.mutate()} className="w-full gradient-primary text-primary-foreground" disabled={updateProfile.isPending}>
                 <Save className="h-4 w-4 mr-1" /> {updateProfile.isPending ? "Salvando..." : "Salvar"}
               </Button>
             ) : (
-              <Button variant="outline" onClick={() => setEditing(true)} className="w-full">
+              <Button variant="outline" onClick={() => setEditing(true)} className="w-full bg-secondary border-border">
                 <Pencil className="h-4 w-4 mr-1" /> Editar Perfil
               </Button>
             )}
